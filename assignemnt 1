@@ -1,0 +1,78 @@
+const productCatalog = [
+    {
+        id: 1,
+        name: "Apple MacBook Pro",
+        category: "Electronics",
+        price: 1299.99,
+        available: true
+    },
+    {
+        id: 2,
+        name: "LEGO Star Wars Set",
+        category: "Toys",
+        price: 59.99,
+        available: true
+    },
+    {
+        id: 3,
+        name: "Google Pixel 8",
+        category: "Electronics",
+        price: 799.99,
+        available: false
+    }
+];
+
+function parseCatalogData(data) {
+    return data.map(product => ({
+        ...product,
+        price: parseFloat(product.price.toFixed(2)) // Ensure prices are formatted to 2 decimal places
+    }));
+}
+
+const parsedProducts = parseCatalogData(productCatalog);
+
+function addNewProduct(catalog, product) {
+    return [...catalog, product];
+}
+
+const additionalProduct = {
+    id: 4,
+    name: "The Night Circus",
+    category: "Books",
+    price: 15.99,
+    available: true
+};
+
+const catalogWithNewProduct = addNewProduct(parsedProducts, additionalProduct);
+
+function updateProductPriceById(catalog, productId, updatedPrice) {
+    return catalog.map((product) =>
+        product.id === productId ? { ...product, price: updatedPrice } : product
+    );
+}
+
+const catalogWithUpdatedPrice = updateProductPriceById(catalogWithNewProduct, 1, 1199.99);
+
+function getAvailableProducts(catalog) {
+    return catalog.filter((product) => product.available);
+}
+
+function removeProductById(catalog, productId) {
+    return catalog.filter((product) => product.id !== productId);
+}
+
+const availableProductList = getAvailableProducts(catalogWithUpdatedPrice);
+const catalogWithoutProduct2 = removeProductById(catalogWithUpdatedPrice, 2);
+
+function filterCatalogByCategory(catalog, category) {
+    return catalog.filter((product) => product.category === category);
+}
+
+const electronicsCatalog = filterCatalogByCategory(catalogWithUpdatedPrice, "Electronics");
+
+console.log("Parsed Products:", parsedProducts);
+console.log("All Products including new Product (ID 4):", catalogWithNewProduct);
+console.log("All Products with updated Price for Product ID 1:", catalogWithUpdatedPrice);
+console.log("Available Products:", availableProductList);
+console.log("Electronics Products:", electronicsCatalog);
+console.log("Catalog after removing Product ID 2:", catalogWithoutProduct2);
